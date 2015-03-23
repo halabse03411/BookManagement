@@ -13,25 +13,21 @@
     </head>
     <body>
         <%
-        String userName = ""+session.getAttribute("userName");
-        if(userName!=null && userName.length()>0){
+            try{
+            String userName = session.getAttribute("userName").toString();
             %>
-            <div align="right">Hi, <a href ="login.jsp"><%=userName%></a>    Logout</div>
+            <div align="right">Hi, <%=userName%>   |   <a href ="login.jsp">Logout</a></div>
             <p><a href ="search.jsp">Search Book</a>
             <p><a href ="addBook.jsp">Add New Book</a>
             <p><a href ="search.jsp">View Book Details</a>
             <p><a href ="search.jsp">Update Book</a>
-            <p><a href ="addUser.jsp">Add New User</a>
-            <p><a href ="updateUser.jsp">Update User Info</a>
+            <p><a href ="searchAccount.jsp">Search Account</a>
+            <p><a href="updateAccount.jsp">Update Account</a>
             <p><a href ="changePassword.jsp">Change Password</a>
             <%
-        }else{
-        %>
-            <jsp:forward page="login.jsp">
-                    <jsp:param name="loged" value="notyet"/>
-            </jsp:forward>
-        <%
-               }
+            }catch(NullPointerException ne){
+                response.sendRedirect("./login.jsp"); 
+            }
         %>
     </body>
 </html>

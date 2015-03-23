@@ -32,6 +32,7 @@
                 </tr>
             </table>
         </form>
+        Don't have an account? Click <a href="createAccount.jsp">here</a>
         <%
             if(loged!=null && loged.equals("false") )
                  out.println("<h1>Failed to login, incorrect username or password!</h1>");
