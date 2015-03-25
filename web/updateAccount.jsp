@@ -16,6 +16,14 @@
             try {
                 String userName = session.getAttribute("userName").toString();
         %>
+         <!--Header of all page-->
+        <div>
+            <span style="float:left"><a href ="home.jsp">Home</a> </span>
+            <span style="float:right">Hi, <a href ="updateAccount.jsp"><%=userName%></a>   |   <a href ="logout.jsp">Logout</a> </span>
+            <br>
+        </div>
+        <!---------------------->
+        
     <center>
 
         <h2>Update Account</h2>

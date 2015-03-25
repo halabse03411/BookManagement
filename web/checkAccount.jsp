@@ -42,7 +42,6 @@
                     }
             }
             conn.close();
-            if(right==false)
                 %>
                 <jsp:forward page="login.jsp">
                             <jsp:param name="loged" value="false"/>

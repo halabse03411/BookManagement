@@ -13,21 +13,28 @@
     </head>
     <body>
         <%
-            try{
-            String userName = session.getAttribute("userName").toString();
-            %>
-            <div align="right">Hi, <%=userName%>   |   <a href ="login.jsp">Logout</a></div>
-            <p><a href ="search.jsp">Search Book</a>
-            <p><a href ="addBook.jsp">Add New Book</a>
-            <p><a href ="search.jsp">View Book Details</a>
-            <p><a href ="search.jsp">Update Book</a>
-            <p><a href ="searchAccount.jsp">Search Account</a>
-            <p><a href="updateAccount.jsp">Update Account</a>
-            <p><a href ="changePassword.jsp">Change Password</a>
-            <%
-            }catch(NullPointerException ne){
-                response.sendRedirect("./login.jsp"); 
-            }
+            try {
+                String userName = session.getAttribute("userName").toString();
         %>
+        <!--Header of all page-->
+        <div>
+            <span style="float:left"><a href ="home.jsp">Home</a> </span>
+            <span style="float:right">Hi, <a href ="updateAccount.jsp"><%=userName%></a>   |   <a href ="logout.jsp">Logout</a> </span>
+            <br>
+        </div>
+        <!---------------------->
+        
+        <center><h1>Book Management</h1></center>
+        <p><a href ="search.jsp">Search Book</a>
+        <p><a href ="addBook.jsp">Add New Book</a>
+        <p><a href ="search.jsp">View Book Details</a>
+        <p><a href ="search.jsp">Update Book</a>
+        <p><a href ="searchAccount.jsp">Search Account</a>
+        <p><a href ="updateAccount.jsp">Update Account</a>
+            <%
+                } catch (NullPointerException ne) {
+                    response.sendRedirect("./login.jsp");
+                }
+            %>
     </body>
 </html>

@@ -15,20 +15,24 @@
     </head>
     <body>
         <%
-            if(session.getAttribute("userName").equals("admin")){
-                %>
-                <h1>You can not delete administrator account!!!</h1>
-                <a href="home.jsp">Home</a>
-                <%
-            }else{
-                Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-                Connection conn = DriverManager.getConnection("Jdbc:Odbc:project");
-                String sql = "Delete from User_Account where User_Name = '"+session.getAttribute("userName")+"'";
-                conn.createStatement().executeUpdate(sql);
-                conn.close();
-                session.invalidate();
-                response.sendRedirect("./login.jsp"); 
+            try {
+                String userName = session.getAttribute("userName").toString();
+                if (session.getAttribute("userName").equals("admin")) {
+        %>
+        <h1>You can not delete administrator account!!!</h1>
+        <a href="home.jsp">Home</a>
+        <%                        } else {
+                    Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+                    Connection conn = DriverManager.getConnection("Jdbc:Odbc:project");
+                    String sql = "Delete from User_Account where User_Name = '" + session.getAttribute("userName") + "'";
+                    conn.createStatement().executeUpdate(sql);
+                    conn.close();
+                    session.invalidate();
+                    response.sendRedirect("./login.jsp");
+                }
+            } catch (NullPointerException ne) {
+                response.sendRedirect("./login.jsp");
             }
-            %>
+        %>
     </body>
 </html>
