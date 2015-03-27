@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Book Management</title>
     </head>
     <body>
         <%
@@ -23,18 +23,19 @@
             <br>
         </div>
         <!---------------------->
-        
-        <center><h1>Book Management</h1></center>
+
+    <center><h1>Book Management</h1>
         <p><a href ="search.jsp">Search Book</a>
         <p><a href ="addBook.jsp">Add New Book</a>
         <p><a href ="search.jsp">View Book Details</a>
         <p><a href ="search.jsp">Update Book</a>
         <p><a href ="searchAccount.jsp">Search Account</a>
         <p><a href ="updateAccount.jsp">Update Account</a>
-            <%
-                } catch (NullPointerException ne) {
-                    response.sendRedirect("./login.jsp");
-                }
-            %>
-    </body>
+    </center>
+    <%
+        } catch (NullPointerException ne) {
+            response.sendRedirect("./login.jsp");
+        }
+    %>
+</body>
 </html>
