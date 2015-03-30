@@ -1,22 +1,22 @@
 <%-- 
     Document   : searchAccount
-    Created on : Mar 24, 2015, 12:11:32 AM
-    Author     : Apollo
+    Created on : Mar 30, 2015, 4:30:34 PM
+    Author     : cuwar1994
 --%>
 
 <%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
+<%@page import="java.sql.DriverManager"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Search Account</title>
+        <title>JSP Page</title>
     </head>
     <body>
         
-        <%
+         <%
             try {
                 String userName = session.getAttribute("userName").toString();
         %>
@@ -28,66 +28,90 @@
         </div>
         <!---------------------->
         
-    <center><h2>Search User</h2></center>
-        <form name="mform">
-            User Name: <input type="text" name="txtUsername" value="" />
-            <input type="submit" value="Search" name="btnSearch" />
-            </form>
+        <center>
+            <h2>Search User</h2>
+        <form>
+            <p>User Name:
+                <input type="text" name="txtName" value="" />
+                <input type="submit" value="Search" name="btnSearch" />
         </form>
-        
         <%
-            String search = request.getParameter("btnSearch");
-            if(search!=null){
-                String searchUserName = request.getParameter("txtUsername");
-                if(searchUserName.equals("") || searchUserName.equals(" ")){
-                    out.println("<h3>You must enter user name!</h3>");
-                }else{
-                    Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-                    Connection conn = DriverManager.getConnection("Jdbc:Odbc:project");
-                    String sql = "Select * from User_Account where User_Name like '%"+searchUserName+"%'";
-                    ResultSet rs = conn.createStatement().executeQuery(sql);
-                    if(rs.next()){
-                        %>
-                        <br>
-                        <table border="true">
-                            <tr>
-                                <th>ID</th>
-                                <th>User Name</th>
-                                <th>Email</th>
-                                <th>Password</th>
-                                <th>Created Date</th>
-                            </tr>
-                            <%
-                        do{
-                            int id = rs.getInt(1);
-                            String username = rs.getString(2);
-                            String email = rs.getString(4);
-                            String password = rs.getString(5);
-                            String createdDate = rs.getString(6);
-                            %>
-                            <tr>
-                            <td><%=id%></td>
-                            <td><%=username%></td>
-                            <td><%=email%></td>
-                            <td><%for(int i=0;i<password.length();i++)
-                                    out.print("*");
-                            %></td>
-                            <td><%=createdDate%></td>
-                            </tr>
-                            <%
-                        }while(rs.next());
-                        conn.close();
-                        %>
-                        </table>
-                        <%
-                    }else{
-                        out.println("<h3>Can not find user</h3>");
-                    }
+            String uName = request.getParameter("txtName");
+            boolean check = true;    
+            String accType;
+            if(request.getParameter("btnSearch") != null) {
+                Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+                Connection conn = DriverManager.getConnection("jdbc:odbc:project");
+                String sql = "Select * from User_Account where User_Name ='" + userName+"'";
+                ResultSet rs = conn.createStatement().executeQuery(sql); 
+                rs.next();
+                    accType = rs.getString(5);
+                
+                conn.close();
+                
+                try {
+                    if(uName.equals("") || uName.equals(" ")) throw new Exception();
                 }
-            }
-             } catch (NullPointerException ne) {
+                catch(Exception ex) {
+                    %>
+                    <p><h2>User name is required</h2>
+                    <%
+                    check = false;
+                }
+            //}
+                if(check == true) {
+            Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+             conn = DriverManager.getConnection("jdbc:odbc:project");
+             sql = "Select * from User_Account where User_Name like '%"+uName+"%'";
+             rs = conn.createStatement().executeQuery(sql); 
+        %>
+        
+        <table border='true'>
+            <tr>
+                <th>ID</th>
+                <th>User Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Created Date</th>
+        <%
+             if(accType.equals("admin"))
+                 out.println("<th>Action</th>");
+        %>
+            </tr>
+            <%
+            while(rs.next()) {
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                String email = rs.getString(4);
+                String password = rs.getString(5);
+                String date = ""+rs.getDate(6);
+            %>
+            <tr>
+                <td><%=id%></td>
+                <td><%=name%></td>
+                <td><%=email%></td>
+                <td><%for(int i = 0;i<password.length();i++) out.print("*");%></td>
+                <td><%=date%></td>
+                    <%
+                if(accType.equals("admin"))
+                    out.println("<td><a onclick=\"return confirm('Delete this book?');\" href='delByAdmin.jsp?id="+id+"'>Delete</a></td>");
+                    %>
+                
+            </tr>
+            <%
+                }
+                conn.close();
+                }
+            %>
+            
+        </table>
+        <%
+            
+        }
+            } catch (NullPointerException ne) {
                     response.sendRedirect("./login.jsp");
                 }
         %>
+        </center>
     </body>
 </html>

@@ -20,14 +20,18 @@
     <body>
         <form name="mform" action="checkAddBook.jsp" onsubmit="return isValidDate();">
             <%
-                String userName = "" + session.getAttribute("userName");
-                if (userName.equalsIgnoreCase("null")) {
-                    response.sendRedirect("./login.jsp");
-                } else {
-
-            %>
+            try {
+                String userName = session.getAttribute("userName").toString();
+        %>
+        <!--Header of all page-->
+        <div>
+            <span style="float:left"><a href ="home.jsp">Home</a> </span>
+            <span style="float:right">Hi, <a href ="updateAccount.jsp"><%=userName%></a>   |   <a href ="logout.jsp">Logout</a> </span>
+            <br>
+        </div>
+        <!---------------------->
             <center>
-                <div align="right">Hi, <a href ="login.jsp"><%=userName%></a>, <a href ="login.jsp"> Logout</a></div>
+                
                 <h1>Add Book</h1>
                 <table>
                     <tr>
@@ -38,7 +42,7 @@
                     </tr>
                     <tr>
                         <td>Selling in</td>
-                        <td><input type="radio" name="Selling" value="1"/>US
+                        <td><input type="radio" name="Selling" value="1" checked ="checked"/>US
                             <input type="radio" name="Selling" value="0" />International</td>
                     </tr>
                     <tr>
@@ -63,12 +67,13 @@
                     </tr>
                     <tr><td><input type="submit" value="Save" name="btnSave" /></td><td><input type="reset" value="Reset" name="btnReset" /></td></tr>
                 </table>
-                <a href="homepage.jsp">Home Page</a>
-                <%
-                    }
-                %>
             </center>
         </form>
+            <%
+        } catch (NullPointerException ne) {
+            response.sendRedirect("./login.jsp");
+        }
+    %>
     </body>
 
 </html>
